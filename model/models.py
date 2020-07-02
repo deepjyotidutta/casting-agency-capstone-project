@@ -44,13 +44,13 @@ def db_init_records():
         title = 'Kabir Singh',
         release_date = '12/12/2021'
         ))
+    new_actor.insert()
+    new_movie.insert()
     new_moviecast = (MovieCast(
         movie_id = new_movie.id,
         actor_id = new_actor.id,
         role = 'Hero'
     ))
-    new_actor.insert()
-    new_movie.insert()
     new_moviecast.insert()
 
 
