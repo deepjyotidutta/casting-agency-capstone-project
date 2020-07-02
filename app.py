@@ -1,317 +1,374 @@
 import sys
 from flask import Flask, request, abort, jsonify
-from model.models import  setup_db, Actor,MovieCast,Movie,db
+from model.models import setup_db, Actor, MovieCast, Movie, db
 from flask_cors import CORS
 from flask_migrate import Migrate
+from auth.auth import AuthError, requires_auth
 
-app = Flask(__name__)
-setup_db(app)
-migrate = Migrate(app, db)
-CORS(app)
+def create_app(test_config=None):
+  app = Flask(__name__)
+  setup_db(app)
+  migrate = Migrate(app, db)
+  CORS(app)
 
-ITEMS_PER_PAGE = 10
+  ITEMS_PER_PAGE = 10
 
-def paginate(request, item_list):
-    page = request.args.get('page', 1, type=int)
-    start = (page - 1) * ITEMS_PER_PAGE
-    end = start + ITEMS_PER_PAGE
-    formatted_list = [item.format() for item in item_list]
-    return formatted_list[start:end]
 
-@app.route('/actors')
-def get_actors():
-  # get all drinks
-  print("LOG START /actors")
-  try:
-      actors = Actor.query.all()
-      # 404 if no drinks found
-      if len(actors) == 0:
+  def paginate(request, item_list):
+      page = request.args.get('page', 1, type=int)
+      start = (page - 1) * ITEMS_PER_PAGE
+      end = start + ITEMS_PER_PAGE
+      formatted_list = [item.format() for item in item_list]
+      return formatted_list[start:end]
+
+
+  @app.route('/')
+  def home():
+      return "Hello World"
+
+
+  @app.route('/actors')
+  @requires_auth('get:actor')
+  def get_actors(jwt):
+      # get all drinks
+      print("LOG START /actors")
+      try:
+          actors = Actor.query.all()
+          # 404 if no drinks found
+          if len(actors) == 0:
+              return jsonify({
+                  'success': False,
+                  'actors': None
+              }),404
           return jsonify({
-              'success': False,
-              'actors': None
+              'success': True,
+              'actors':  paginate(request, actors)
+          }), 200
+      except BaseException:
+          print(sys.exc_info())
+          abort(500)
+
+
+  @app.route('/actors', methods=['POST'])
+  @requires_auth('post:actor')
+  def create_actors(jwt):
+      success = False
+      try:
+          name = request.json.get('name', None)
+          age = request.json.get('age', None)
+          gender = request.json.get('gender', None)
+          print(name)
+          if not (name and age and gender):
+              return abort(
+                  422)
+          actor_instance = Actor(name, age, gender)
+          actor_instance.insert()
+          success = True
+          actor_list = Actor.query.all()
+          paginated_actor_list = paginate(
+              request, actor_list)
+          return jsonify({
+              'success': True,
+              'actors': paginated_actor_list,
+              'total_actors': len(actor_list),
+              'actor_added': actor_instance.format()
           })
-      return jsonify({
-          'success': True,
-          'actors':  paginate(request, actors)
-      }),200
-  except BaseException:
-      print(sys.exc_info())
-      abort(500)
+      except BaseException:
+          return abort(500)
 
-@app.route('/actors', methods=['POST'])
-def create_actors():
-  success = False
-  try:
-      name = request.json.get('name', None)
-      age = request.json.get('age', None)
-      gender = request.json.get('gender', None)
-      print(name)
-      if not (name and age and gender):
-          return abort(
-              422)
-      actor_instance = Actor(name, age, gender)
-      actor_instance.insert()
-      success = True
-      actor_list = Actor.query.all()
-      paginated_actor_list = paginate(
-          request, actor_list)
-      return jsonify({
-          'success': True,
-          'actors': paginated_actor_list,
-          'total_actors': len(actor_list),
-          'actor_added': actor_instance.format()
-      })
-  except BaseException:
-      return abort(500)
 
-@app.route('/movies')
-def get_movies():
-  # get all drinks
-  print("LOG START /movies")
-  try:
-      movies = Movie.query.all()
-      # 404 if no drinks found
-      if len(movies) == 0:
+  @app.route('/movies')
+  @requires_auth('get:movie')
+  def get_movies(jwt):
+      # get all drinks
+      print("LOG START /movies")
+      try:
+          movies = Movie.query.all()
+          # 404 if no drinks found
+          if len(movies) == 0:
+              return jsonify({
+                  'success': False,
+                  'movies': None
+              }), 404
           return jsonify({
-              'success': False,
-              'movies': None
-          }),404
-      return jsonify({
-          'success': True,
-          'movies':  paginate(request, movies)
-      }),200
-  except BaseException:
-      print(sys.exc_info())
-      abort(500)
+              'success': True,
+              'movies':  paginate(request, movies)
+          }), 200
+      except BaseException:
+          print(sys.exc_info())
+          abort(500)
 
-@app.route('/movies', methods=['POST'])
-def create_movies():
-  success = False
-  try:
-      title = request.json.get('title', None)
-      release_date = request.json.get('release_date', None)
-      print(title)
-      if not (title and release_date):
+
+  @app.route('/movies', methods=['POST'])
+  @requires_auth('post:movie')
+  def create_movies(jwt):
+      success = False
+      try:
+          title = request.json.get('title', None)
+          release_date = request.json.get('release_date', None)
+          print(title)
+          if not (title and release_date):
+              return abort(
+                  422)
+          movie_instance = Movie(title, release_date)
+          movie_instance.insert()
+          success = True
+          movie_list = Movie.query.all()
+          paginated_movie_list = paginate(
+              request, movie_list)
+          return jsonify({
+              'success': True,
+              'movies': paginated_movie_list,
+              'total_movies': len(movie_list),
+              'movie_added': movie_instance.format()
+          })
+      except BaseException:
+          print(sys.exc_info())
+          return abort(500)
+
+
+  @app.route('/movieCast', methods=['POST'])
+  @requires_auth('post:movie')
+  def create_movieCast(jwt):
+      error = False
+      movie_id = request.json.get('movie_id', None)
+      actor_id = request.json.get('actor_id', None)
+      role = request.json.get('role', None)
+      if not (movie_id and actor_id):
           return abort(
               422)
-      movie_instance = Movie(title, release_date)
-      movie_instance.insert()
-      success = True
-      movie_list = Movie.query.all()
-      paginated_movie_list = paginate(
-          request, movie_list)
-      return jsonify({
-          'success': True,
-          'movies': paginated_movie_list,
-          'total_movies': len(movie_list),
-          'movie_added': movie_instance.format()
-      })
-  except BaseException:
-      print(sys.exc_info())
-      return abort(500)
+      movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
+      if movie is None:
+          return abort(422)
 
-@app.route('/movieCast', methods=['POST'])
-def create_movieCast():
-  error = False
-  try:
-    movie_id = request.json.get('movie_id', None)
-    actor_id = request.json.get('actor_id', None)
-    role = request.json.get('role', None)
-    if not (movie_id and actor_id):
-          return abort(
-              422)
-    movieCast = MovieCast(movie_id, actor_id, role)
-    movieCast.insert()
-    success = True
-    movieCast_list = MovieCast.query.all()
-    paginated_movieCast_list = paginate(
-        request, movieCast_list)
-    return jsonify({
-        'success': True,
-        'movie_cast': paginated_movieCast_list,
-        'total_movie_cast': len(movieCast_list),
-        'movie_cast_added': movieCast.format()
-    })
-  except BaseException:
-    print(sys.exc_info())
-    return abort(500)
+      actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+      if actor is None:
+          return abort(422)
+      if (actor and movie) :
+        movieCast = MovieCast(movie_id, actor_id, role)
+        movieCast.insert()
+        success = True
+        movieCast_list = MovieCast.query.all()
+        paginated_movieCast_list = paginate(
+            request, movieCast_list)
+        return jsonify({
+            'success': True,
+            'movie_cast': paginated_movieCast_list,
+            'total_movie_cast': len(movieCast_list),
+            'movie_cast_added': movieCast.format()
+        })
+      else :
+          return abort(422)   
 
-def formatMovieCast(movieCast):
-  return {
-  'movie_title': movieCast.movie_title,
-  'actor_name': movieCast.actor_name,
-  'role': movieCast.role}
 
-@app.route('/movieCast')
-def get_all_movie_cast():
-  # displays list of movies with cast
-  try:
-    movie_cast = db.session.query(MovieCast).join(Movie).join(Actor).add_columns(Movie.title.label('movie_title')).add_columns(Actor.name.label('actor_name')).add_columns(MovieCast.role.label('role')).order_by(Movie.title).all()
-    if len(movie_cast) == 0:
-            return jsonify({
-            'success': False,
-            'movies': None
-        }),404
-    return jsonify({
-        'success': True,
-        'movie_cast':  [formatMovieCast(item) for item in movie_cast]
-    }),200
-  except BaseException:
-    print(sys.exc_info())
-    return abort(500)
 
-@app.route('/movieCast/movie/<int:movie_id>')
-def get_movie_cast_by_movieid(movie_id):
-  # displays list of movies with cast
-  if movie_id is not None:
-    try:
-      movie_cast = db.session.query(MovieCast).join(Movie).join(Actor).add_columns(Movie.title.label('movie_title')).add_columns(Actor.name.label('actor_name')).add_columns(MovieCast.role.label('role')).filter(Movie.id == movie_id).order_by(Movie.title).all()
-      if len(movie_cast) == 0:
+  def formatMovieCast(movieCast):
+      return {
+          'movie_title': movieCast.movie_title,
+          'actor_name': movieCast.actor_name,
+          'role': movieCast.role}
+
+
+  @app.route('/movieCast')
+  @requires_auth('get:actor')
+  def get_all_movie_cast(jwt):
+      # displays list of movies with cast
+      try:
+          movie_cast = db.session.query(MovieCast).join(Movie).join(Actor).add_columns(Movie.title.label('movie_title')).add_columns(
+              Actor.name.label('actor_name')).add_columns(MovieCast.role.label('role')).order_by(Movie.title).all()
+          if len(movie_cast) == 0:
               return jsonify({
-              'success': False,
-              'movies': None
-          }),404
-      return jsonify({
-          'success': True,
-          'movie_cast':  [formatMovieCast(item) for item in movie_cast]
-      }),200
-    except BaseException:
-      print(sys.exc_info())
-      return abort(500)
-  else:
-     return abort(422)
+                  'success': False,
+                  'movies': None
+              }), 404
+          return jsonify({
+              'success': True,
+              'movie_cast':  [formatMovieCast(item) for item in movie_cast]
+          }), 200
+      except BaseException:
+          print(sys.exc_info())
+          return abort(500)
 
-@app.route('/movieCast/actor/<int:actor_id>')
-def get_movie_cast_by_actorid(actor_id):
-  # displays list of movies with cast
-  if actor_id is not None:
-    try:
-      movie_cast = db.session.query(MovieCast).join(Movie).join(Actor).add_columns(Movie.title.label('movie_title')).add_columns(Actor.name.label('actor_name')).add_columns(MovieCast.role.label('role')).filter(Actor.id == actor_id).order_by(Movie.title).all()
-      if len(movie_cast) == 0:
+
+  @app.route('/movieCast/movie/<int:movie_id>')
+  @requires_auth('get:movie')
+  def get_movie_cast_by_movieid(jwt, movie_id):
+      # displays list of movies with cast
+      if movie_id is not None:
+          try:
+              movie_cast = db.session.query(MovieCast).join(Movie).join(Actor).add_columns(Movie.title.label('movie_title')).add_columns(
+                  Actor.name.label('actor_name')).add_columns(MovieCast.role.label('role')).filter(Movie.id == movie_id).order_by(Movie.title).all()
+              if len(movie_cast) == 0:
+                  return jsonify({
+                      'success': False,
+                      'movies': None
+                  }), 404
               return jsonify({
-              'success': False,
-              'movies': None
-          }),404
+                  'success': True,
+                  'movie_cast':  [formatMovieCast(item) for item in movie_cast]
+              }), 200
+          except BaseException:
+              print(sys.exc_info())
+              return abort(500)
+      else:
+          return abort(422)
+
+
+  @app.route('/movieCast/actor/<int:actor_id>')
+  @requires_auth('get:actor')
+  def get_movie_cast_by_actorid(jwt, actor_id):
+      # displays list of movies with cast
+      if actor_id is not None:
+          try:
+              movie_cast = db.session.query(MovieCast).join(Movie).join(Actor).add_columns(Movie.title.label('movie_title')).add_columns(
+                  Actor.name.label('actor_name')).add_columns(MovieCast.role.label('role')).filter(Actor.id == actor_id).order_by(Movie.title).all()
+              if len(movie_cast) == 0:
+                  return jsonify({
+                      'success': False,
+                      'movies': None
+                  }), 404
+              return jsonify({
+                  'success': True,
+                  'movie_cast':  [formatMovieCast(item) for item in movie_cast]
+              }), 200
+          except BaseException:
+              print(sys.exc_info())
+              return abort(500)
+      else:
+          return abort(422)
+
+
+  @app.route('/movies/<int:id>', methods=['DELETE'])
+  @requires_auth('delete:movie')
+  def delete_movie(jwt, id):
+      movie = Movie.query.filter(Movie.id == id).one_or_none()
+      if not movie:
+          abort(404)
+      try:
+          movie.delete()
+      except BaseException:
+          print(sys.exc_info())
+          abort(500)
+      return jsonify({'success': True, 'delete': id}), 200
+
+
+  @app.route('/actors/<int:id>', methods=['DELETE'])
+  @requires_auth('delete:actor')
+  def delete_actor(jwt, id):
+      actor = Actor.query.filter(Actor.id == id).one_or_none()
+      if not actor:
+          abort(404)
+      try:
+          actor.delete()
+      except BaseException:
+          print(sys.exc_info())
+          abort(500)
+      return jsonify({'success': True, 'delete': id}), 200
+
+
+  @app.route('/movies/<int:id>', methods=['PATCH'])
+  @requires_auth('patch:movie')
+  def update_movie(jwt, id):
+      movie = Movie.query.filter(Movie.id == id).one_or_none()
+      if not movie:
+          abort(404)
+      req = request.get_json()
+      try:
+          input_release_date = req.get('release_date')
+          input_title = req.get('title')
+          if input_release_date is not None:
+              movie.release_date = input_release_date
+          if input_title is not None:
+              movie.title = input_title
+          movie.update()
+      except BaseException:
+          print(sys.exc_info())
+          abort(500)
+      return jsonify({'success': True, 'movies': movie.format()}), 200
+
+
+  @app.route('/actors/<int:id>', methods=['PATCH'])
+  @requires_auth('patch:actor')
+  def update_actor(jwt, id):
+      actor = Actor.query.filter(Actor.id == id).one_or_none()
+      if not actor:
+          abort(404)
+      req = request.get_json()
+      try:
+          input_name = req.get('name')
+          input_gender = req.get('gender')
+          input_age = req.get('age')
+
+          if input_name is not None:
+              actor.name = input_name
+          if input_gender is not None:
+              actor.gender = input_gender
+          if input_age is not None:
+              actor.age = input_age
+          actor.update()
+      except BaseException:
+          print(sys.exc_info())
+          abort(500)
+      return jsonify({'success': True, 'actors': actor.format()}), 200
+
+
+  # Error Handling
+  '''
+  Example error handling for unprocessable entity
+  '''
+
+
+  @app.errorhandler(422)
+  def unprocessable(error):
       return jsonify({
-          'success': True,
-          'movie_cast':  [formatMovieCast(item) for item in movie_cast]
-      }),200
-    except BaseException:
-      print(sys.exc_info())
-      return abort(500)
-  else:
-     return abort(422)
-
-@app.route('/movies/<int:id>', methods=['DELETE'])
-def delete_movie(id):
-    movie = Movie.query.filter(Movie.id == id).one_or_none()
-    if not movie:
-        abort(404)
-    try:
-        movie.delete()
-    except BaseException:
-        print(sys.exc_info())
-        abort(500)
-    return jsonify({'success': True, 'delete': id}), 200
-
-@app.route('/actors/<int:id>', methods=['DELETE'])
-def delete_actor(id):
-    actor = Actor.query.filter(Actor.id == id).one_or_none()
-    if not actor:
-        abort(404)
-    try:
-        actor.delete()
-    except BaseException:
-        print(sys.exc_info())
-        abort(500)
-    return jsonify({'success': True, 'delete': id}), 200
-
-@app.route('/movies/<int:id>', methods=['PATCH'])
-def update_movie(id):
-    movie = Movie.query.filter(Movie.id == id).one_or_none()
-    if not movie:
-        abort(404)
-    req = request.get_json()
-    try:
-        input_release_date = req.get('release_date')
-        input_title = req.get('title')
-        if input_release_date is not None :
-            movie.release_date = input_release_date
-        if input_title is not None:
-            movie.title = input_title
-        movie.update()
-    except BaseException:
-        print(sys.exc_info())
-        abort(500)
-    return jsonify({'success': True, 'movies': movie.format()}), 200
-
-@app.route('/actors/<int:id>', methods=['PATCH'])
-def update_actor(id):
-    actor = Actor.query.filter(Actor.id == id).one_or_none()
-    if not actor:
-        abort(404)
-    req = request.get_json()
-    try:
-        input_name = req.get('name')
-        input_gender = req.get('gender')
-        input_age = req.get('age')
-
-        if input_name is not None :
-            actor.name = input_name
-        if input_gender is not None:
-            actor.gender = input_gender
-        if input_age is not None:
-            actor.age = input_age
-        actor.update()
-    except BaseException:
-        print(sys.exc_info())
-        abort(500)
-    return jsonify({'success': True, 'actors': actor.format()}), 200
-## Error Handling
-'''
-Example error handling for unprocessable entity
-'''
-@app.errorhandler(422)
-def unprocessable(error):
-    return jsonify({
-                    "success": False, 
-                    "error": 422,
-                    "message": "unprocessable"
-                    }), 422
-
-@app.errorhandler(404)
-def not_found(error):
-    return jsonify({
-        'success': False,
-        'error': 404,
-        'message': 'Resource not found'
-    }), 404
-
-@app.errorhandler(500)
-def server_error(error):
-    return jsonify({
-        'success': False,
-        'error': 500,
-        'message': 'Internal Server Error'
-    }), 500
+          "success": False,
+          "error": 422,
+          "message": "unprocessable"
+      }), 422
 
 
+  @app.errorhandler(404)
+  def not_found(error):
+      return jsonify({
+          'success': False,
+          'error': 404,
+          'message': 'Resource not found'
+      }), 404
 
 
+  @app.errorhandler(500)
+  def server_error(error):
+      return jsonify({
+          'success': False,
+          'error': 500,
+          'message': 'Internal Server Error.'
+      }), 500
 
-if not app.debug:
-    file_handler = FileHandler('error.log')
-    file_handler.setFormatter(
-        Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
-    )
-    app.logger.setLevel(logging.INFO)
-    file_handler.setLevel(logging.INFO)
-    app.logger.addHandler(file_handler)
-    app.logger.info('errors')
+
+  @app.errorhandler(AuthError)
+  def auth_error(error):
+      return jsonify({
+          "success": False,
+          "error": error.status_code,
+          "message": error.error['description']
+      }), error.status_code
+
+
+  if not app.debug:
+      file_handler = FileHandler('error.log')
+      file_handler.setFormatter(
+          Formatter(
+              '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
+      )
+      app.logger.setLevel(logging.INFO)
+      file_handler.setLevel(logging.INFO)
+      app.logger.addHandler(file_handler)
+      app.logger.info('errors')
+  
+  return app
 #----------------------------------------------------------------------------#
 # Launch.
 #----------------------------------------------------------------------------#
 
 # Default port:
-if __name__ == '__main__':
-    app.run()
+

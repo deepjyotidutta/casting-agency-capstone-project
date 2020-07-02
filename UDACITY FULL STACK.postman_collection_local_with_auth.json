@@ -1,0 +1,1054 @@
+{
+	"info": {
+		"_postman_id": "d81e194a-04cc-4f38-a96e-76bb24beb53f",
+		"name": "UDACITY FULL STACK",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Capstone Project",
+			"item": [
+				{
+					"name": "Casting Assistant",
+					"item": [
+						{
+							"name": "GET ACTORS",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/actors?page=1",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"actors"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET MOVIES",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/movies",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ADD ACTOR",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Shahrukh Khan\",\r\n    \"age\": \"50\",\r\n    \"gender\":\"Male\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/actors",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"actors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE ACTOR",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Shahrukh Khan\",\r\n    \"age\": \"50\",\r\n    \"gender\":\"Male\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/actors/4",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"actors",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ADD MOVIE",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"John Wick 4\",\r\n    \"release_date\": \"12/12/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/movies",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE MOVIE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"John Wick 4\",\r\n    \"release_date\": \"12/12/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/movies/4",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movies",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ADD MOVIE CAST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"movie_id\": \"1\",\r\n    \"actor_id\": \"2\",\r\n    \"role\" : \"Lead Actor II\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/movieCast",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movieCast"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET MOVIE CAST",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/movieCast",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movieCast"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET MOVIE CAST BY MOVIE ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/movieCast/movie/1",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movieCast",
+										"movie",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET MOVIE CAST BY ACTOR ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/movieCast/actor/1",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movieCast",
+										"actor",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE MOVIE",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"John Wick 4\",\r\n    \"release_date\": \"31/12/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/movies/1",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movies",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE ACTOR",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n      \"age\": 42,\r\n      \"gender\": \"Male\",\r\n      \"name\": \"Hrithik Roshan\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/actors/1",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"actors",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1fWV9hQURNTTR6c1lsWlRMWEJLRSJ9.eyJpc3MiOiJodHRwczovL2Rldi1ici13Z3Blby51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWVmMjZjZDk3Nzk3YzEwMDEzNzAxYjNjIiwiYXVkIjoiY2FzdGluZ2FnZW5jeSIsImlhdCI6MTU5MzcwNTk1NSwiZXhwIjoxNTkzNzkyMzU1LCJhenAiOiJOSWQxQjdlOEhFMmEyZk1YekI2ZTg5Z0F4VzdIOTlZUCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZ2V0OmFjdG9yIiwiZ2V0Om1vdmllIl19.mpCE1lTkYiM3bmKM3kL44_B1C-Pz3SbKaDiseuu_xskyFS0lGnC5GfFTApTKUK8cUavmhPpEjZbGDvMGZGBQf6MEdegoT6-FVrhL8Z2PcLlva7FTYTm_NIxAkoifndiPwZ_FYBWJO4Cow-_1NlPtdvHGCQUb-lkoJxdGycxHVP6moXt2VX18KtLuSMJ0NQ-_oYm88fWJFgkaJe13ybLMlwdH56Cs9Utx-agoZ6Hnk3Lv_RZwURsqJtzkpJYc3h-aiWbrJylip9sISE-BLUIp5EnUR55qpAehMqGmuCrXyZjVhH8v94f06DkE3sMotwwLO5krhXPwxBmMvc13BUywZA",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2accea20-f2cb-45ba-9bf1-5f01f3ae0b8c",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "b5a5afbf-40ac-4509-a7e0-f583c59bd29d",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Executive Producer",
+					"item": [
+						{
+							"name": "GET ACTORS",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/actors?page=1",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"actors"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET MOVIES",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/movies",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ADD ACTOR",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Kajol\",\r\n    \"age\": \"30\",\r\n    \"gender\":\"Female\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/actors",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"actors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE ACTOR",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Shahrukh Khan\",\r\n    \"age\": \"50\",\r\n    \"gender\":\"Male\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/actors/5",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"actors",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ADD MOVIE",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"DDLJ 2\",\r\n    \"release_date\": \"12/12/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/movies",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE MOVIE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"John Wick 4\",\r\n    \"release_date\": \"12/12/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/movies/4",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movies",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ADD MOVIE CAST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"movie_id\": \"1\",\r\n    \"actor_id\": \"2\",\r\n    \"role\" : \"Lead Actor II\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/movieCast",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movieCast"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET MOVIE CAST",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/movieCast",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movieCast"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET MOVIE CAST BY MOVIE ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/movieCast/movie/1",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movieCast",
+										"movie",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET MOVIE CAST BY ACTOR ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/movieCast/actor/1",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movieCast",
+										"actor",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE MOVIE",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"John Wick 4\",\r\n    \"release_date\": \"31/12/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/movies/1",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movies",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE ACTOR",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n      \"age\": 45,\r\n      \"gender\": \"Male\",\r\n      \"name\": \"Hrithik Roshan\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/actors/1",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"actors",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1fWV9hQURNTTR6c1lsWlRMWEJLRSJ9.eyJpc3MiOiJodHRwczovL2Rldi1ici13Z3Blby51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWVmMjZjM2JhYmEwMzAwMDE5Y2UwYjRkIiwiYXVkIjoiY2FzdGluZ2FnZW5jeSIsImlhdCI6MTU5MzcwNzM3NSwiZXhwIjoxNTkzNzkzNzc1LCJhenAiOiJOSWQxQjdlOEhFMmEyZk1YekI2ZTg5Z0F4VzdIOTlZUCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9yIiwiZGVsZXRlOm1vdmllIiwiZ2V0OmFjdG9yIiwiZ2V0Om1vdmllIiwicGF0Y2g6YWN0b3IiLCJwYXRjaDptb3ZpZSIsInBvc3Q6YWN0b3IiLCJwb3N0Om1vdmllIl19.H-LfYi-ZJZDLB_kddgxSApBJkGiXSNg5UB1TCaTj3k4q29J98oM5I_tZ-z-eu08UHGSjRf2ke64IF0YvchZ4VrW-o8QD17hEocdhDvS2KQU0fIewWJhQS6MacvBgW8Zdf4TPERj7gTuDNnjOADcued95NSDx60WWuO17r9kXAajEezDb-c-00oosA4cGhzCdtI74pSLHqqoerhIuiOrNUHG1ubjUsbMQ3seOlkUQuf8AV16YNMF67Idhp9iuMM2dQE1PzngfR94aqAIIK3RwSmLjt-l0-P0HnBOUK_ZDritmgr271hUHpFayRzAVaaJmJPkOoVb_c5A7TkT__0cC_w",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5a261460-aec3-40f7-95d3-a9e0ace93880",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "a5614c7d-c65a-4b95-888b-e6b49db60955",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Casting Director",
+					"item": [
+						{
+							"name": "GET ACTORS",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/actors?page=1",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"actors"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET MOVIES",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/movies",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ADD ACTOR",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Kajol\",\r\n    \"age\": \"30\",\r\n    \"gender\":\"Female\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/actors",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"actors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE ACTOR",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Shahrukh Khan\",\r\n    \"age\": \"50\",\r\n    \"gender\":\"Male\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/actors/5",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"actors",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ADD MOVIE",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"DDLJ 2\",\r\n    \"release_date\": \"12/12/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/movies",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE MOVIE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"John Wick 4\",\r\n    \"release_date\": \"12/12/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/movies/4",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movies",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ADD MOVIE CAST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"movie_id\": \"1\",\r\n    \"actor_id\": \"2\",\r\n    \"role\" : \"Lead Actor II\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/movieCast",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movieCast"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET MOVIE CAST",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/movieCast",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movieCast"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET MOVIE CAST BY MOVIE ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/movieCast/movie/1",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movieCast",
+										"movie",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET MOVIE CAST BY ACTOR ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/movieCast/actor/1",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movieCast",
+										"actor",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE MOVIE",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"John Wick part 4\",\r\n    \"release_date\": \"31/12/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/movies/1",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"movies",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE ACTOR",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n      \"age\": 45,\r\n      \"gender\": \"Male\",\r\n      \"name\": \"Hrithik Roshan\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/actors/1",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"actors",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1fWV9hQURNTTR6c1lsWlRMWEJLRSJ9.eyJpc3MiOiJodHRwczovL2Rldi1ici13Z3Blby51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWVmNTI3MjkzNDE2MDUwMDE5ZGQ1MWY1IiwiYXVkIjoiY2FzdGluZ2FnZW5jeSIsImlhdCI6MTU5MzcxMTk1NCwiZXhwIjoxNTkzNzk4MzU0LCJhenAiOiJOSWQxQjdlOEhFMmEyZk1YekI2ZTg5Z0F4VzdIOTlZUCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9yIiwiZ2V0OmFjdG9yIiwiZ2V0Om1vdmllIiwicGF0Y2g6YWN0b3IiLCJwYXRjaDptb3ZpZSIsInBvc3Q6YWN0b3IiXX0.FQSNBXYIq9iAnbq3etKHBWMTLz0Kq5qTjieAKKCa0HDvUT14OGeet9b6Js0kSpBYwNjPxhSAcH_JLEkL-EvScZjHgoXQlAM1r73l-CSphNsdyks0tQa7i718lFwXd6pAGo4BHJv2IMump1R2FS6LOX0802tVvCZt7-pf9QfX418UMkVjGzKaH-vYjuWyD8q80-arfygrcMWTAiL0HhywlA7L5ukCKw40cXh30QZNHG58p6BcjUGuRSAfhP5RubZIviNZaIrUMHyHhJ5NVgb-SdqbhBtRQ0IpnFb066dsJ5xQfazkBat-IHHXReh5tfcDdY-47Brc0btTjcBOf6k5Mg",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "d15ef5ce-f770-4552-8f6b-0665fb3d7b31",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "f1381dab-0cd8-44be-b75c-ecab3691f0d2",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "GET ACTORS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/actors?page=1",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"actors"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET MOVIES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/movies",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
