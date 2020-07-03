@@ -45,10 +45,10 @@ $ pip install -r requirements.txt
 ```
 
 3. Setup Auth0
-3.1 Create new Auth0 project which will genrate ClientId. And setup callback URLs like -
+#3.1 Create new Auth0 project which will genrate ClientId. And setup callback URLs like -
     http://localhost:5000/, https://casting-agency-deepjyotidutta.herokuapp.com/
-3.2 Create new Auh0 API. And setup a new API Audience. Enable RBAC and 'Add Permissions in the Access Token'
-3.3 Create Roles 
+#3.2 Create new Auh0 API. And setup a new API Audience. Enable RBAC and 'Add Permissions in the Access Token'
+#3.3 Create Roles 
 ```
     a. Casting Assistant - Add permissions get:actor , get:movie
     b. Casting Director - Add permissions delete:actor , get:actor , get:movie , patch:actor , patch:movie , post:actor
@@ -70,17 +70,7 @@ $ py test_app.py
 
 Base URL - https://casting-agency-deepjyotidutta.herokuapp.com/
 
-
-
-### Authentification
-
-Please see Authent
-
-### Available Endpoints
-
-## API Documentation
-
-GET "/actors"
+## GET "/actors"
     Fetches a list of Actors
     Request Parameters: None
     Requires permission: get:actor
@@ -88,7 +78,7 @@ GET "/actors"
         actors: List of actors
         success: Boolean
     Heroku Endpoint - https://casting-agency-deepjyotidutta.herokuapp.com/actors
-# Reponse Example
+## Reponse Example
   ```bash
  {
   "actors": [
@@ -107,8 +97,8 @@ GET "/actors"
   ],
   "success": true
 }
-  ```
-GET "/movies"
+```
+## GET "/movies"
     Fetches a list of Movies
     Request Parameters: None
     Requires permission: get:movie
@@ -116,7 +106,7 @@ GET "/movies"
         actors: List of movies
         success: Boolean
     Heroku Endpoint - https://casting-agency-deepjyotidutta.herokuapp.com/movies
-# Reponse Example
+## Reponse Example
   ```bash
 {
   "movies": [
@@ -140,7 +130,7 @@ GET "/movies"
 }
 
   ```
-POST "/actors"
+## POST "/actors"
     Adds a new Actor
     Request Parameters: Actor object
     ```
@@ -155,7 +145,7 @@ POST "/actors"
         actors: List of movies
         success: Boolean
     Heroku Endpoint - https://casting-agency-deepjyotidutta.herokuapp.com/movies
-# Reponse Example
+## Reponse Example
   ```bash
 {
   "movies": [
