@@ -3,7 +3,7 @@
 ## Content
 
 1. [Motivation](#motivation)
-2. [Start Project locally](#start-locally)
+2. [Local Project Setup](#start-locally)
 3. [API Documentation](#api)
 4. [Authentification](#authentification)
 
@@ -45,16 +45,16 @@ $ pip install -r requirements.txt
 ```
 
 3. Setup Auth0
-#3.1 Create new Auth0 project which will genrate ClientId. And setup callback URLs like -
+### 3.1 Create new Auth0 project which will generate a ClientId. And setup callback URLs like -
     http://localhost:5000/, https://casting-agency-deepjyotidutta.herokuapp.com/
-#3.2 Create new Auh0 API. And setup a new API Audience. Enable RBAC and 'Add Permissions in the Access Token'
-#3.3 Create Roles 
+### 3.2 Create new Auh0 API. And setup a new API Audience. Enable RBAC and 'Add Permissions in the Access Token'
+### 3.3 Create Roles and Permissions
 ```
     a. Casting Assistant - Add permissions get:actor , get:movie
     b. Casting Director - Add permissions delete:actor , get:actor , get:movie , patch:actor , patch:movie , post:actor
     c. Executive Producer - Add permisisions delete:actor , delete:movie, get:actor, get:movie, patch:actor, patch:movie, post:actor, post:movie
 ```
-* FOR UDACITY REVIEW PLEASE USE THE TOKENS ALREADY SETUP IN THE ATTACHED POSTMAP EXPORT
+### FOR UDACITY REVIEW : KINDLY USE THE TOKENS ALREADY SETUP IN THE ATTACHED POSTMAP EXPORT
 
 5. Run the development server:
   ```bash 
@@ -132,7 +132,7 @@ Base URL - https://casting-agency-deepjyotidutta.herokuapp.com/
   ```
 ## POST "/actors"
     Adds a new Actor
-    Request Parameters: Actor object
+    Request Body: Actor object
     ```
         {
             "name": "Kajol",
@@ -175,7 +175,7 @@ Base URL - https://casting-agency-deepjyotidutta.herokuapp.com/
 
 ## POST "/movies"
     Adds a new Movie
-    Request Parameters: Movie object
+    Request Body: Movie object
     ```
     {
         "title": "Jurassic Park 3",
@@ -206,7 +206,7 @@ Base URL - https://casting-agency-deepjyotidutta.herokuapp.com/
   "total_movies": 4
 }
   ```
-## DELETE "/actors/<id>"
+## DELETE "/actors/{{id}}"
     Delete an  Actor
     Request Parameters: Id
     Requires permission: delete:actor
@@ -220,7 +220,7 @@ Base URL - https://casting-agency-deepjyotidutta.herokuapp.com/
     "success": true
     }
   ```
-## DELETE "/movies/<id>"
+## DELETE "/movies/{{id}}"
     Delete a  Movie
     Request Parameters: Id
     Requires permission: delete:movie
@@ -234,11 +234,58 @@ Base URL - https://casting-agency-deepjyotidutta.herokuapp.com/
     "success": true
     }
   ```
-
+## PATCH "/actors/{{id}}"
+    UPDATE an  Actor
+    Request Parameters: Id
+    Request Body: Actor Object
+    {
+        "age": 40,
+        "gender": "Male",
+        "name": "Hrithik Roshan"
+    }
+    Requires permission: patch:actor
+    Response Body: 
+        success: Boolean
+    Heroku Endpoint - https://casting-agency-deepjyotidutta.herokuapp.com/actors/1
+## Reponse Example
+  ```bash
+    {
+    "actors": {
+        "age": 40,
+        "gender": "Male",
+        "id": 1,
+        "name": "Hrithik Roshan"
+    },
+    "success": true
+    }
+  ```
+## PATCH "/movies/{{id}}"
+    UPDATE an  Movie
+    Request Parameters: Id
+    Request Body: Movie Object
+    {
+        "title": "John Wick 4",
+        "release_date": "31/12/2020"
+    }
+    Requires permission: patch:movie
+    Response Body: 
+        success: Boolean
+    Heroku Endpoint - https://casting-agency-deepjyotidutta.herokuapp.com/movies/1
+## Reponse Example
+  ```bash
+    {
+    "movies": {
+        "id": 1,
+        "release_date": "31/12/2020",
+        "title": "John Wick 4"
+    },
+    "success": true
+    }
+  ```
 # <a name="authentification"></a>
 ## Authentification
 
-All API Endpoints are decorated with Auth0 permissions. To use the project locally, you need to config Auth0 accordingly
+All API Endpoints are decorated with Auth0 permissions. See steps provided in Local Setup section
 
 ### Auth0 for locally use
 #### Create an App & API
