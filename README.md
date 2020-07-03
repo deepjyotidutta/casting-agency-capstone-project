@@ -49,10 +49,11 @@ $ pip install -r requirements.txt
     http://localhost:5000/, https://casting-agency-deepjyotidutta.herokuapp.com/
 3.2 Create new Auh0 API. And setup a new API Audience. Enable RBAC and 'Add Permissions in the Access Token'
 3.3 Create Roles 
+```
     a. Casting Assistant - Add permissions get:actor , get:movie
     b. Casting Director - Add permissions delete:actor , get:actor , get:movie , patch:actor , patch:movie , post:actor
     c. Executive Producer - Add permisisions delete:actor , delete:movie, get:actor, get:movie, patch:actor, patch:movie, post:actor, post:movie
-
+```
 * FOR UDACITY REVIEW PLEASE USE THE TOKENS ALREADY SETUP IN THE ATTACHED POSTMAP EXPORT
 
 5. Run the development server:
@@ -78,24 +79,105 @@ Please see Authent
 ### Available Endpoints
 
 ## API Documentation
-GET "/categories"
-    Fetches a dictionary of categories
-    Request Parameters: None
-    Response Body: categories: Dictionary of Category ID <-> Category Type
-  ```bash
-  {
-    "categories": {
-      "1": "Science",
-      "2": "Art",
-      "3": "Geography",
-      "4": "History",
-      "5": "Entertainment",
-      "6": "Sports"
-    },
-    "success": true
-  }
-  ```
 
+GET "/actors"
+    Fetches a list of Actors
+    Request Parameters: None
+    Requires permission: get:actor
+    Response Body: 
+        actors: List of actors
+        success: Boolean
+    Heroku Endpoint - https://casting-agency-deepjyotidutta.herokuapp.com/actors
+# Reponse Example
+  ```bash
+ {
+  "actors": [
+    {
+      "age": 50,
+      "gender": "Male",
+      "id": 2,
+      "name": "Shahrukh Khan"
+    },
+    {
+      "age": 30,
+      "gender": "Male",
+      "id": 6,
+      "name": "Vicky Kaushal"
+    }
+  ],
+  "success": true
+}
+  ```
+GET "/movies"
+    Fetches a list of Movies
+    Request Parameters: None
+    Requires permission: get:movie
+    Response Body: 
+        actors: List of movies
+        success: Boolean
+    Heroku Endpoint - https://casting-agency-deepjyotidutta.herokuapp.com/movies
+# Reponse Example
+  ```bash
+{
+  "movies": [
+    {
+      "id": 1,
+      "release_date": "31/12/2020",
+      "title": "John Wick 4"
+    },
+    {
+      "id": 2,
+      "release_date": "12/12/2020",
+      "title": "Jurassic Park"
+    },
+    {
+      "id": 4,
+      "release_date": "12/12/2020",
+      "title": "Jurassic Park 3"
+    }
+  ],
+  "success": true
+}
+
+  ```
+POST "/actors"
+    Adds a new Actor
+    Request Parameters: Actor object
+    ```
+        {
+            "name": "Kajol",
+            "age": "30",
+            "gender":"Female"
+        }
+    ```
+    Requires permission: post:actor
+    Response Body: 
+        actors: List of movies
+        success: Boolean
+    Heroku Endpoint - https://casting-agency-deepjyotidutta.herokuapp.com/movies
+# Reponse Example
+  ```bash
+{
+  "movies": [
+    {
+      "id": 1,
+      "release_date": "31/12/2020",
+      "title": "John Wick 4"
+    },
+    {
+      "id": 2,
+      "release_date": "12/12/2020",
+      "title": "Jurassic Park"
+    },
+    {
+      "id": 4,
+      "release_date": "12/12/2020",
+      "title": "Jurassic Park 3"
+    }
+  ],
+  "success": true
+}
+  ```
 GET "/questions?page=1"
     Fetches the questions based on the page number
     Request Parameters: page: Page number
