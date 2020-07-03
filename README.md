@@ -336,4 +336,4 @@ c. Role Executive Producer - Permissions delete:actor , delete:movie, get:actor,
 <a name="postman"></a>
 ## POSTMAN Setup
 
-Please check the Postman export file. Import it in your local. It has 2 Folders for testing the Heroku hosted App and localhost hosted app. Each folder again has list of APIs for each Auth Role
+Please check the Postman export file included in the project. Import it in your local. It has 2 Folders for testing the Heroku hosted App and localhost hosted app. Each folder again has list of APIs for each Auth Role
