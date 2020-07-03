@@ -142,148 +142,98 @@ Base URL - https://casting-agency-deepjyotidutta.herokuapp.com/
     ```
     Requires permission: post:actor
     Response Body: 
+        actors: List of actors
+        success: Boolean
+    Heroku Endpoint - https://casting-agency-deepjyotidutta.herokuapp.com/actors
+## Reponse Example
+  ```bash
+{
+  "actor_added": {
+    "age": 30,
+    "gender": "Female",
+    "id": 2,
+    "name": "Kajol"
+  },
+  "actors": [
+    {
+      "age": 45,
+      "gender": "Male",
+      "id": 1,
+      "name": "Hrithik Roshan"
+    },
+    {
+      "age": 30,
+      "gender": "Female",
+      "id": 2,
+      "name": "Kajol"
+    }
+  ],
+  "success": true,
+  "total_actors": 2
+}
+  ```
+
+## POST "/movies"
+    Adds a new Movie
+    Request Parameters: Movie object
+    ```
+    {
+        "title": "Jurassic Park 3",
+        "release_date": "12/12/2020"
+    }
+    ```
+    Requires permission: post:movie
+    Response Body: 
         actors: List of movies
         success: Boolean
     Heroku Endpoint - https://casting-agency-deepjyotidutta.herokuapp.com/movies
 ## Reponse Example
   ```bash
 {
+  "movie_added": {
+    "id": 4,
+    "release_date": "12/12/2020",
+    "title": "Jurassic Park 3"
+  },
   "movies": [
     {
       "id": 1,
       "release_date": "31/12/2020",
       "title": "John Wick 4"
-    },
-    {
-      "id": 2,
-      "release_date": "12/12/2020",
-      "title": "Jurassic Park"
-    },
-    {
-      "id": 4,
-      "release_date": "12/12/2020",
-      "title": "Jurassic Park 3"
     }
   ],
-  "success": true
+  "success": true,
+  "total_movies": 4
 }
   ```
-GET "/questions?page=1"
-    Fetches the questions based on the page number
-    Request Parameters: page: Page number
-    Response Body:
-      questions: List of questions
-      categories: Dictionary of Category ID <-> Category Type
-      total_questions: Total number of questions
-      currentPage : page number
-```bash
-{
-  "categories": {
-    "1": "Science",
-    "2": "Art",
-    "3": "Geography",
-    "4": "History",
-    "5": "Entertainment",
-    "6": "Sports"
-  },
-  "currentPage": 1,
-  "current_category": "None",
-  "questions": [
+## DELETE "/actors/<id>"
+    Delete an  Actor
+    Request Parameters: Id
+    Requires permission: delete:actor
+    Response Body: 
+        success: Boolean
+    Heroku Endpoint - https://casting-agency-deepjyotidutta.herokuapp.com/actors/2
+## Reponse Example
+  ```bash
     {
-      "answer": "Maya Angelou",
-      "category": 4,
-      "difficulty": 2,
-      "id": 5,
-      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    "delete": 3,
+    "success": true
     }
-  ],
-  "success": true,
-  "total_questions": 18
-}
-```
-DELETE "/questions/int:question_id"
-    Deletes a question
-    Request Parameters: question_id: Question ID to be deleted
-    Response Body:
-      deleted: Deleted Question ID
-```bash
-{
-  "question_deleted": 15,
-  "questions": [
+  ```
+## DELETE "/movies/<id>"
+    Delete a  Movie
+    Request Parameters: Id
+    Requires permission: delete:movie
+    Response Body: 
+        success: Boolean
+    Heroku Endpoint - https://casting-agency-deepjyotidutta.herokuapp.com/movies/3
+## Reponse Example
+  ```bash
     {
-      "answer": "Maya Angelou",
-      "category": 4,
-      "difficulty": 2,
-      "id": 5,
-      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    "delete": 3,
+    "success": true
     }
-  ],
-  "success": true,
-  "total_questions": 17
-}
-```
-POST "/questions"
-    Adds a questions to the DB
-    Request Body:
-      question: Question
-      answer: Answer
-      category: Category ID
-      difficulty: Difficulty Level
-    Response Body:
-      question_added: Question obect that is created
-      total_questions: Total Number of questions
-      questions: List of all questions
-```bash
-{
-  "total_questions": 20,
-  "question_added": {
-    "id": 1,
-    "question": "",
-    "answer": "",
-    "category": 1,
-    "difficulty": 1
-  }
-}
-```
-POST "/search"
-    Fetches questions based on the search term
-    Request Body:
-      searchTerm: Search term
-    Response Body:
-      questions: List of questions found in search
-      total_questions: Total number of questions
-```bash
-{
-  "questions": [{
-    "id": 1,
-    "question": "",
-    "answer": "",
-    "category": 1,
-    "difficulty": 1
-  }],
-  "total_questions": 1
-}
-```
-GET "/categories/int:category_id/questions"
-    Fetches questions from the requested category
-    Request Parameters: category_id: Category ID for questions
-    Response Body:
-      questions: List of category questions
-      total_questions: Total number of questions
-      current_category: Current category ID
-```bash
-{
-  "questions": [{
-    "id": 1,
-    "question": "",
-    "answer": "",
-    "category": 1,
-    "difficulty": 1
-  }],
-  "total_questions": 1,
-  "current_category": 1
-}
-```
+  ```
 
 # <a name="authentification"></a>
 ## Authentification
