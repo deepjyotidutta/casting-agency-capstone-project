@@ -45,16 +45,16 @@ $ pip install -r requirements.txt
 ```
 
 3. Setup Auth0
-### 3.1 Create new Auth0 project which will generate a ClientId. And setup callback URLs like -
+#### 3.1 Create new Auth0 project which will generate a ClientId. And setup callback URLs like -
     http://localhost:5000/, https://casting-agency-deepjyotidutta.herokuapp.com/
-### 3.2 Create new Auh0 API. And setup a new API Audience. Enable RBAC and 'Add Permissions in the Access Token'
-### 3.3 Create Roles and Permissions
+#### 3.2 Create new Auh0 API. And setup a new API Audience. Enable RBAC and 'Add Permissions in the Access Token'
+#### 3.3 Create Roles and Permissions
 ```
     a. Casting Assistant - Add permissions get:actor , get:movie
     b. Casting Director - Add permissions delete:actor , get:actor , get:movie , patch:actor , patch:movie , post:actor
     c. Executive Producer - Add permisisions delete:actor , delete:movie, get:actor, get:movie, patch:actor, patch:movie, post:actor, post:movie
 ```
-### FOR UDACITY REVIEW : KINDLY USE THE TOKENS ALREADY SETUP IN THE ATTACHED POSTMAP EXPORT
+#### FOR UDACITY REVIEW : KINDLY USE THE TOKENS ALREADY SETUP IN THE ATTACHED POSTMAP EXPORT
 
 5. Run the development server:
   ```bash 
