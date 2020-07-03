@@ -7,9 +7,9 @@ from model.models import setup_db, Actor, MovieCast, Movie, db_drop_create_initi
 
 ''' SETUP AUTH TOKENS '''
 bearer_tokens = {
-    "EXECUTIVE_PRODUCER": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1fWV9hQURNTTR6c1lsWlRMWEJLRSJ9.eyJpc3MiOiJodHRwczovL2Rldi1ici13Z3Blby51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWVmMjZjM2JhYmEwMzAwMDE5Y2UwYjRkIiwiYXVkIjoiY2FzdGluZ2FnZW5jeSIsImlhdCI6MTU5MzcwNzM3NSwiZXhwIjoxNTkzNzkzNzc1LCJhenAiOiJOSWQxQjdlOEhFMmEyZk1YekI2ZTg5Z0F4VzdIOTlZUCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9yIiwiZGVsZXRlOm1vdmllIiwiZ2V0OmFjdG9yIiwiZ2V0Om1vdmllIiwicGF0Y2g6YWN0b3IiLCJwYXRjaDptb3ZpZSIsInBvc3Q6YWN0b3IiLCJwb3N0Om1vdmllIl19.H-LfYi-ZJZDLB_kddgxSApBJkGiXSNg5UB1TCaTj3k4q29J98oM5I_tZ-z-eu08UHGSjRf2ke64IF0YvchZ4VrW-o8QD17hEocdhDvS2KQU0fIewWJhQS6MacvBgW8Zdf4TPERj7gTuDNnjOADcued95NSDx60WWuO17r9kXAajEezDb-c-00oosA4cGhzCdtI74pSLHqqoerhIuiOrNUHG1ubjUsbMQ3seOlkUQuf8AV16YNMF67Idhp9iuMM2dQE1PzngfR94aqAIIK3RwSmLjt-l0-P0HnBOUK_ZDritmgr271hUHpFayRzAVaaJmJPkOoVb_c5A7TkT__0cC_w",
-    "CASTING_ASSISTANT": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1fWV9hQURNTTR6c1lsWlRMWEJLRSJ9.eyJpc3MiOiJodHRwczovL2Rldi1ici13Z3Blby51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWVmMjZjZDk3Nzk3YzEwMDEzNzAxYjNjIiwiYXVkIjoiY2FzdGluZ2FnZW5jeSIsImlhdCI6MTU5MzcwNTk1NSwiZXhwIjoxNTkzNzkyMzU1LCJhenAiOiJOSWQxQjdlOEhFMmEyZk1YekI2ZTg5Z0F4VzdIOTlZUCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZ2V0OmFjdG9yIiwiZ2V0Om1vdmllIl19.mpCE1lTkYiM3bmKM3kL44_B1C-Pz3SbKaDiseuu_xskyFS0lGnC5GfFTApTKUK8cUavmhPpEjZbGDvMGZGBQf6MEdegoT6-FVrhL8Z2PcLlva7FTYTm_NIxAkoifndiPwZ_FYBWJO4Cow-_1NlPtdvHGCQUb-lkoJxdGycxHVP6moXt2VX18KtLuSMJ0NQ-_oYm88fWJFgkaJe13ybLMlwdH56Cs9Utx-agoZ6Hnk3Lv_RZwURsqJtzkpJYc3h-aiWbrJylip9sISE-BLUIp5EnUR55qpAehMqGmuCrXyZjVhH8v94f06DkE3sMotwwLO5krhXPwxBmMvc13BUywZA",
-    "CASTING_DIRECTOR": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1fWV9hQURNTTR6c1lsWlRMWEJLRSJ9.eyJpc3MiOiJodHRwczovL2Rldi1ici13Z3Blby51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWVmNTI3MjkzNDE2MDUwMDE5ZGQ1MWY1IiwiYXVkIjoiY2FzdGluZ2FnZW5jeSIsImlhdCI6MTU5MzcxMTk1NCwiZXhwIjoxNTkzNzk4MzU0LCJhenAiOiJOSWQxQjdlOEhFMmEyZk1YekI2ZTg5Z0F4VzdIOTlZUCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9yIiwiZ2V0OmFjdG9yIiwiZ2V0Om1vdmllIiwicGF0Y2g6YWN0b3IiLCJwYXRjaDptb3ZpZSIsInBvc3Q6YWN0b3IiXX0.FQSNBXYIq9iAnbq3etKHBWMTLz0Kq5qTjieAKKCa0HDvUT14OGeet9b6Js0kSpBYwNjPxhSAcH_JLEkL-EvScZjHgoXQlAM1r73l-CSphNsdyks0tQa7i718lFwXd6pAGo4BHJv2IMump1R2FS6LOX0802tVvCZt7-pf9QfX418UMkVjGzKaH-vYjuWyD8q80-arfygrcMWTAiL0HhywlA7L5ukCKw40cXh30QZNHG58p6BcjUGuRSAfhP5RubZIviNZaIrUMHyHhJ5NVgb-SdqbhBtRQ0IpnFb066dsJ5xQfazkBat-IHHXReh5tfcDdY-47Brc0btTjcBOf6k5Mg"
+    "EXECUTIVE_PRODUCER": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1fWV9hQURNTTR6c1lsWlRMWEJLRSJ9.eyJpc3MiOiJodHRwczovL2Rldi1ici13Z3Blby51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWVmMjZjM2JhYmEwMzAwMDE5Y2UwYjRkIiwiYXVkIjoiY2FzdGluZ2FnZW5jeSIsImlhdCI6MTU5MzgwMDgxNSwiZXhwIjoxNTkzODg3MjE1LCJhenAiOiJOSWQxQjdlOEhFMmEyZk1YekI2ZTg5Z0F4VzdIOTlZUCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9yIiwiZGVsZXRlOm1vdmllIiwiZ2V0OmFjdG9yIiwiZ2V0Om1vdmllIiwicGF0Y2g6YWN0b3IiLCJwYXRjaDptb3ZpZSIsInBvc3Q6YWN0b3IiLCJwb3N0Om1vdmllIl19.E7Oz2vsnRzzbCS_UbXKqjJHj3PJS3DDEQzVQHVVEE4Z6RTXH9KvRkR0Oxie9IDHvIQ1tONfuuyy_H_J0GzOicgPqr6G2ptqp2MVAcF59qsUVFpARwyVrw4ev-zJp1_YlnOrXT4YUp_z_z9YQAILVBTy2XBkemYoZUiGIt568bsgkGcUY4MlEjFDqX0OgmhqElEeuL5kUnQpMjomlprVTHexV-NNsEHp1HnHySkz3SNmiTITIDIzKcElyICI-opWNA2AIYocVhgPgtOttFOpkGpomet93ko21IfSYVtPvXgNt6ZJnDGs0XvjSDYE_6tfOVvM9wvOoXzmVg_Kk5iNWMg",
+    "CASTING_ASSISTANT": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1fWV9hQURNTTR6c1lsWlRMWEJLRSJ9.eyJpc3MiOiJodHRwczovL2Rldi1ici13Z3Blby51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWVmMjZjZDk3Nzk3YzEwMDEzNzAxYjNjIiwiYXVkIjoiY2FzdGluZ2FnZW5jeSIsImlhdCI6MTU5MzgwMDQ5NCwiZXhwIjoxNTkzODg2ODk0LCJhenAiOiJOSWQxQjdlOEhFMmEyZk1YekI2ZTg5Z0F4VzdIOTlZUCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZ2V0OmFjdG9yIiwiZ2V0Om1vdmllIl19.moUQBzW4Rsc7e2wmoMipeKXgAd8gNmeo0TKeKQJXbnhhFtwPtYc_nsWYlhrEos4PnZPkqJQeyvPeiY-Z1QVXZv0JAYl9HkywJziZOIMQBiS-fsDgBORHLcfPxmKj4qIHFggdKFIJeM_D0p5Vp-E_o6DioixYdjcB1uStwjp_ZdXDRq8wapK7AhiBvAGn5wM3fjCxZ56ANzB3ACuv8VMOzJJ5PT5oKqRnUew09IHVKWe5EqoolgY15ugQLLb9GUuo5hfbkppN4DXuGjjN1H8hT9WGObIBxFy6Cq_lmm6dgDLm_Cx2dkz22hUqA3efmU_BeKClzBJqDuNdELRw-1qGYw",
+    "CASTING_DIRECTOR": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1fWV9hQURNTTR6c1lsWlRMWEJLRSJ9.eyJpc3MiOiJodHRwczovL2Rldi1ici13Z3Blby51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWVmNTI3MjkzNDE2MDUwMDE5ZGQ1MWY1IiwiYXVkIjoiY2FzdGluZ2FnZW5jeSIsImlhdCI6MTU5MzgwMDYzMiwiZXhwIjoxNTkzODg3MDMyLCJhenAiOiJOSWQxQjdlOEhFMmEyZk1YekI2ZTg5Z0F4VzdIOTlZUCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9yIiwiZ2V0OmFjdG9yIiwiZ2V0Om1vdmllIiwicGF0Y2g6YWN0b3IiLCJwYXRjaDptb3ZpZSIsInBvc3Q6YWN0b3IiXX0.HUiDDhBSxGOwqrKG_YXGVnkGcn8BlsgtLSgjQyz9QspYJCL4Cm3FxX_U3knfs32DfaCdRRpwSqzQHRqTu93r72-LCrIlL-of9DIaRVXJJq4YFQ4yQbfvHiWQ0w7tf27CUZ9pCbkhXlC4k2VhFsdlM0PvNAzEiPSOEAVLoCMZ_4ySL2SmFZ5nqDaAcpVCZx7CZtlzlyAUsCuX9wOXf30mDCZexugua8VXmlzhrN0m7eTNeiyhsveMbXcYsRB_U-e0YxNPE2rqOXV_uDfj40X2FjI5oIOiKd1OpMl7GjBrI3oEHlCy_uX0BFvOQWUSCV8lXVqn_r1UXjHR5mV_qra_vQ"
 }
 auth_token_producer = os.environ.get('EXECUTIVE_PRODUCER')
 if not auth_token_producer:
@@ -202,7 +202,20 @@ class CastingAgencyTestCase(unittest.TestCase):
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
+    #----------------------------------------------------------------------------#
+    # Tests for /movies POST WITH AUTH FOR 422
+    #----------------------------------------------------------------------------#
 
+    def test_422_post_movie_error(self):
+        """Test POST new movie."""
+        json_create_movie = {
+            'release_date': '12/12/2020'
+        }
+        res = self.client().post('/movies', json=json_create_movie,
+                                 headers=producer_auth_header)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
     #----------------------------------------------------------------------------#
     # Tests for /movies GET WITH AUTH HEADERS
     #----------------------------------------------------------------------------#
@@ -215,6 +228,16 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertEqual(data["success"], True)
         self.assertTrue(len(data["movies"]))
     #----------------------------------------------------------------------------#
+    # Tests for /movies GET WITH AUTH FOR 404
+    #----------------------------------------------------------------------------#
+
+    def test_404_get_movie_error(self):
+        res = self.client().get(
+            '/movies?page=123', headers=producer_auth_header)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data["success"], False)
+    #----------------------------------------------------------------------------#
     # Tests for /movies GET NO AUTH HEADERS FOR 401
     #----------------------------------------------------------------------------#
 
@@ -224,8 +247,99 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 401)
         self.assertEqual(data["success"], False)
         self.assertEqual(data["message"], "Missing Authorization header.")
+ #----------------------------------------------------------------------------#
+    # Tests for /movies PATCH WITH AUTH HEADERS 
+    #----------------------------------------------------------------------------#
 
+    def test_patch_movies(self):
+        json_patch_movie = {
+            'title': 'The lost world',
+            'release_date': '12/12/2020'
+        }
+        res = self.client().patch('/movies/1',json=json_patch_movie, headers=producer_auth_header)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+    #----------------------------------------------------------------------------#
+    # Tests for /movies PATCH WITH AUTH HEADERS FOR 404
+    #----------------------------------------------------------------------------#
 
+    def test_404_patch_movies_error(self):
+        json_patch_movie = {
+            'title': 'The lost world',
+            'release_date': '12/12/2020'
+        }
+        res = self.client().patch('/movies/123',json=json_patch_movie, headers=producer_auth_header)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data["success"], False)
+    #----------------------------------------------------------------------------#
+    # Tests for /movies DELETE WITH AUTH HEADERS 
+    #----------------------------------------------------------------------------#
+
+    def test_delete_movies(self):
+        res = self.client().delete('/movies/1',headers=producer_auth_header)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+    #----------------------------------------------------------------------------#
+    # Tests for /movies DELETE WITH AUTH HEADERS FOR 404
+    #----------------------------------------------------------------------------#
+
+    def test_404_delete_movies_error(self):
+        res = self.client().delete('/movies/123', headers=producer_auth_header)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data["success"], False)
+    
+    ''' RBAC TEST CASES '''
+    #----------------------------------------------------------------------------#
+    # Tests for CASTING_ASSISTANT Role
+    #----------------------------------------------------------------------------#
+
+    def test_get_actors_as_assistant(self):
+        res = self.client().get('/actors', headers=assistant_auth_header)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+
+    def test_403_post_actors_as_assistant_error(self):
+        res = self.client().post('/actors', json=json_create_actor, headers=assistant_auth_header)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(data["success"], False)
+
+    #----------------------------------------------------------------------------#
+    # Tests for CASTING_DIRECTOR Role
+    #----------------------------------------------------------------------------#
+
+    def test_post_actors_as_director(self):
+        res = self.client().post('/actors',json=json_create_actor, headers=director_auth_header)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+
+    def test_403_post_movies_as_director(self):
+        res = self.client().post('/movies', json=json_create_movie, headers=director_auth_header)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(data["success"], False)
+
+    #----------------------------------------------------------------------------#
+    # Tests for EXECUTIVE_PRODUCER Role
+    #----------------------------------------------------------------------------#
+
+    def test_get_actors_as_producer(self):
+        res = self.client().get('/actors', headers=producer_auth_header)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+
+    def test_post_movies_as_producer(self):
+        res = self.client().post('/movies', json=json_create_movie, headers=producer_auth_header)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()
