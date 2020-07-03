@@ -9,6 +9,8 @@
 5. [Heroku Setup](#heroku)
 6. [POSTMAN Setup](#postman)
 
+## Heroku App Baseurl : https://casting-agency-deepjyotidutta.herokuapp.com/
+
 <a name="motivation"></a>
 ## Motivations
 
@@ -315,6 +317,13 @@ c. Role Executive Producer - Permissions delete:actor , delete:movie, get:actor,
     "CASTING_DIRECTOR": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1fWV9hQURNTTR6c1lsWlRMWEJLRSJ9.eyJpc3MiOiJodHRwczovL2Rldi1ici13Z3Blby51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWVmNTI3MjkzNDE2MDUwMDE5ZGQ1MWY1IiwiYXVkIjoiY2FzdGluZ2FnZW5jeSIsImlhdCI6MTU5MzgwMDYzMiwiZXhwIjoxNTkzODg3MDMyLCJhenAiOiJOSWQxQjdlOEhFMmEyZk1YekI2ZTg5Z0F4VzdIOTlZUCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9yIiwiZ2V0OmFjdG9yIiwiZ2V0Om1vdmllIiwicGF0Y2g6YWN0b3IiLCJwYXRjaDptb3ZpZSIsInBvc3Q6YWN0b3IiXX0.HUiDDhBSxGOwqrKG_YXGVnkGcn8BlsgtLSgjQyz9QspYJCL4Cm3FxX_U3knfs32DfaCdRRpwSqzQHRqTu93r72-LCrIlL-of9DIaRVXJJq4YFQ4yQbfvHiWQ0w7tf27CUZ9pCbkhXlC4k2VhFsdlM0PvNAzEiPSOEAVLoCMZ_4ySL2SmFZ5nqDaAcpVCZx7CZtlzlyAUsCuX9wOXf30mDCZexugua8VXmlzhrN0m7eTNeiyhsveMbXcYsRB_U-e0YxNPE2rqOXV_uDfj40X2FjI5oIOiKd1OpMl7GjBrI3oEHlCy_uX0BFvOQWUSCV8lXVqn_r1UXjHR5mV_qra_vQ"
 }
 ```
+### AUTH0 URL FOR GENERATING JWTS
+LOCALHOST REDIRECT - AUTH0 URL
+https://dev-br-wgpeo.us.auth0.com/authorize?audience=castingagency&response_type=token&client_id=NId1B7e8HE2a2fMXzB6e89gAxW7H99YP&redirect_uri=http://localhost:5000/
+
+HEROKU REDIRECT - AUTH0 URL
+https://dev-br-wgpeo.us.auth0.com/authorize?audience=castingagency&response_type=token&client_id=NId1B7e8HE2a2fMXzB6e89gAxW7H99YP&redirect_uri=https://casting-agency-deepjyotidutta.herokuapp.com/
+
 
 <a name="heroku"></a>
 ## Heroku Setup
@@ -336,4 +345,6 @@ c. Role Executive Producer - Permissions delete:actor , delete:movie, get:actor,
 <a name="postman"></a>
 ## POSTMAN Setup
 
-Please check the Postman export file included in the project. Import it in your local. It has 2 Folders for testing the Heroku hosted App and localhost hosted app. Each folder again has list of APIs for each Auth Role
+1. Please check the Postman export file included in the project. Import it in your local. It has 2 Folders for testing the Heroku hosted App and localhost hosted app. 
+2. Each folder again has list of APIs for each Auth Role
+3. Role based JWTs are already added in POSTMAN and are valid at the time of submission
