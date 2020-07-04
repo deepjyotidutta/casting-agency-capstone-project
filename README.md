@@ -10,6 +10,8 @@
 6. [POSTMAN Setup](#postman)
 
 ## Heroku App Baseurl : https://casting-agency-deepjyotidutta.herokuapp.com/
+## AUTH0 JWT HELPER URL - https://casting-agency-deepjyotidutta.herokuapp.com/authorization/url
+
 
 <a name="motivation"></a>
 ## Motivations
