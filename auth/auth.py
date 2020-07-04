@@ -6,14 +6,16 @@ from urllib.request import urlopen
 import sys
 import os
 
-#AUTH0_DOMAIN = 'dev-br-wgpeo.us.auth0.com'
-#ALGORITHMS = ['RS256']
-#API_AUDIENCE = 'castingagency'
+# AUTH0_DOMAIN = 'dev-br-wgpeo.us.auth0.com'
+# ALGORITHMS = ['RS256']
+# API_AUDIENCE = 'castingagency'
 AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
 ALGORITHMS = os.environ.get('ALGORITHMS')
 API_AUDIENCE = os.environ.get('API_AUDIENCE')
 
 # AuthError Exception
+
+
 class AuthError(Exception):
     def __init__(self, error, status_code):
         self.error = error
@@ -114,13 +116,14 @@ def verify_decode_jwt(token):
         except jwt.JWTClaimsError:
             raise AuthError({
                 'code': 'invalid_claims',
-                'description': 'Incorrect claims. Please, check the audience and issuer.'
+                'description': 'Incorrect claims.Check audience and issuer.'
             }, 401)
         except Exception:
             raise AuthError({
                 'code': 'invalid_header',
                 'description': 'Unable to parse authentication token.'
             }, 400)
+
 
 def requires_auth(permission=''):
     def requires_auth_decorator(f):

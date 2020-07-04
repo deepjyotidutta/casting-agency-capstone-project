@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 from auth.auth import AuthError, requires_auth
 import os
 
+
 def create_app(test_config=None):
     app = Flask(__name__)
     setup_db(app)
@@ -58,9 +59,8 @@ def create_app(test_config=None):
             abort(404)
         return jsonify({
             'success': True,
-            'actors':  paginated_actors
+            'actors': paginated_actors
         }), 200
-
 
     @app.route('/actors', methods=['POST'])
     @requires_auth('post:actor')
@@ -104,17 +104,16 @@ def create_app(test_config=None):
             }), 404
         paginated_movies = paginate(request, movies)
         if not len(paginated_movies):
-          abort(404)
+            abort(404)
         return jsonify({
             'success': True,
-            'movies':  paginated_movies
+            'movies': paginated_movies
         }), 200
-
 
     @app.route('/movies', methods=['POST'])
     @requires_auth('post:movie')
     def create_movies(jwt):
-        """ Service to add a movie """         
+        """ Service to add a movie """
         success = False
         try:
             title = request.json.get('title', None)
@@ -142,7 +141,7 @@ def create_app(test_config=None):
     @app.route('/movieCast', methods=['POST'])
     @requires_auth('post:movie')
     def create_movieCast(jwt):
-        """ Service to add a moviecast """               
+        """ Service to add a moviecast """
         error = False
         movie_id = request.json.get('movie_id', None)
         actor_id = request.json.get('actor_id', None)
@@ -184,8 +183,11 @@ def create_app(test_config=None):
     def get_all_movie_cast(jwt):
         # displays list of movies with cast
         try:
-            movie_cast = db.session.query(MovieCast).join(Movie).join(Actor).add_columns(Movie.title.label('movie_title')).add_columns(
-                Actor.name.label('actor_name')).add_columns(MovieCast.role.label('role')).order_by(Movie.title).all()
+            movie_cast = (db.session.query(MovieCast).join(Movie).join(Actor)
+                          .add_columns(Movie.title.label('movie_title'))
+                          .add_columns(Actor.name.label('actor_name'))
+                          .add_columns(MovieCast.role.label('role'))
+                          .order_by(Movie.title).all())
             if len(movie_cast) == 0:
                 return jsonify({
                     'success': False,
@@ -193,7 +195,7 @@ def create_app(test_config=None):
                 }), 404
             return jsonify({
                 'success': True,
-                'movie_cast':  [formatMovieCast(item) for item in movie_cast]
+                'movie_cast': [formatMovieCast(item) for item in movie_cast]
             }), 200
         except BaseException:
             print(sys.exc_info())
@@ -205,8 +207,14 @@ def create_app(test_config=None):
         # displays list of movies with cast
         if movie_id is not None:
             try:
-                movie_cast = db.session.query(MovieCast).join(Movie).join(Actor).add_columns(Movie.title.label('movie_title')).add_columns(
-                    Actor.name.label('actor_name')).add_columns(MovieCast.role.label('role')).filter(Movie.id == movie_id).order_by(Movie.title).all()
+                movie_cast = (db.session.query(MovieCast).
+                              join(Movie).
+                              join(Actor).
+                              add_columns(Movie.title.label('movie_title')).
+                              add_columns(Actor.name.label('actor_name')).
+                              add_columns(MovieCast.role.label('role')).
+                              filter(Movie.id == movie_id).
+                              order_by(Movie.title).all())
                 if len(movie_cast) == 0:
                     return jsonify({
                         'success': False,
@@ -214,7 +222,8 @@ def create_app(test_config=None):
                     }), 404
                 return jsonify({
                     'success': True,
-                    'movie_cast':  [formatMovieCast(item) for item in movie_cast]
+                    'movie_cast': [formatMovieCast(item)
+                                   for item in movie_cast]
                 }), 200
             except BaseException:
                 print(sys.exc_info())
@@ -228,8 +237,14 @@ def create_app(test_config=None):
         # displays list of movies with cast
         if actor_id is not None:
             try:
-                movie_cast = db.session.query(MovieCast).join(Movie).join(Actor).add_columns(Movie.title.label('movie_title')).add_columns(
-                    Actor.name.label('actor_name')).add_columns(MovieCast.role.label('role')).filter(Actor.id == actor_id).order_by(Movie.title).all()
+                movie_cast = (
+                    db.session.query(MovieCast). join(Movie).
+                    join(Actor). add_columns(
+                        Movie.title.label('movie_title')). add_columns(
+                        Actor.name.label('actor_name')). add_columns(
+                        MovieCast.role.label('role')). filter(
+                        Actor.id == actor_id).order_by(
+                        Movie.title).all())
                 if len(movie_cast) == 0:
                     return jsonify({
                         'success': False,
@@ -237,7 +252,8 @@ def create_app(test_config=None):
                     }), 404
                 return jsonify({
                     'success': True,
-                    'movie_cast':  [formatMovieCast(item) for item in movie_cast]
+                    'movie_cast': [formatMovieCast(item)
+                                   for item in movie_cast]
                 }), 200
             except BaseException:
                 print(sys.exc_info())
@@ -248,7 +264,7 @@ def create_app(test_config=None):
     @app.route('/movies/<int:id>', methods=['DELETE'])
     @requires_auth('delete:movie')
     def delete_movie(jwt, id):
-        """ Service to delete a movie """               
+        """ Service to delete a movie """
         movie = Movie.query.filter(Movie.id == id).one_or_none()
         if not movie:
             abort(404)
@@ -262,7 +278,7 @@ def create_app(test_config=None):
     @app.route('/actors/<int:id>', methods=['DELETE'])
     @requires_auth('delete:actor')
     def delete_actor(jwt, id):
-        """ Service to delete an actor """               
+        """ Service to delete an actor """
         actor = Actor.query.filter(Actor.id == id).one_or_none()
         if not actor:
             abort(404)
@@ -276,7 +292,7 @@ def create_app(test_config=None):
     @app.route('/movies/<int:id>', methods=['PATCH'])
     @requires_auth('patch:movie')
     def update_movie(jwt, id):
-        """ Service to Update a movie """               
+        """ Service to Update a movie """
         movie = Movie.query.filter(Movie.id == id).one_or_none()
         if not movie:
             abort(404)
@@ -297,7 +313,7 @@ def create_app(test_config=None):
     @app.route('/actors/<int:id>', methods=['PATCH'])
     @requires_auth('patch:actor')
     def update_actor(jwt, id):
-        """ Service to update an actor """     
+        """ Service to update an actor """
         actor = Actor.query.filter(Actor.id == id).one_or_none()
         if not actor:
             abort(404)
@@ -358,18 +374,18 @@ def create_app(test_config=None):
 
     if not app.debug:
         file_handler = FileHandler('error.log')
-        file_handler.setFormatter(
-            Formatter(
-                '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
-        )
+        file_handler.setFormatter(Formatter(
+            '% (asctime)s % (levelname)s: % (message)s [in %(pathname)s:%(lineno)d]'
+        ))
         app.logger.setLevel(logging.INFO)
         file_handler.setLevel(logging.INFO)
         app.logger.addHandler(file_handler)
         app.logger.info('errors')
 
     return app
-#----------------------------------------------------------------------------#
+
+
+# ----------------------------------------------------------------------------#
 # Launch.
-#----------------------------------------------------------------------------#
+# ----------------------------------------------------------------------------#
 app = create_app()
-# Default port:

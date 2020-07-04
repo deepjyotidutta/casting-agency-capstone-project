@@ -26,30 +26,32 @@ def setup_db(app, database_path=database_path):
     db.init_app(app)
     db.create_all()
 
+
 def db_drop_create_initialize():
-    '''drops the database tables 
+    '''drops the database tables
     '''
     db.drop_all()
     db.create_all()
     db_init_records()
 
+
 def db_init_records():
     '''initialize test records for unittest'''
     new_actor = (Actor(
-        name = 'Shahid Kapoor',
-        gender = 'Male',
-        age = 25
-        ))
+        name='Shahid Kapoor',
+        gender='Male',
+        age=25
+    ))
     new_movie = (Movie(
-        title = 'Kabir Singh',
-        release_date = '12/12/2021'
-        ))
+        title='Kabir Singh',
+        release_date='12/12/2021'
+    ))
     new_actor.insert()
     new_movie.insert()
     new_moviecast = (MovieCast(
-        movie_id = new_movie.id,
-        actor_id = new_actor.id,
-        role = 'Hero'
+        movie_id=new_movie.id,
+        actor_id=new_actor.id,
+        role='Hero'
     ))
     new_moviecast.insert()
 
