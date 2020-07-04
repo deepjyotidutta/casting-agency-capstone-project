@@ -59,7 +59,7 @@ $ pip install -r requirements.txt
     c. Executive Producer - Add permisisions delete:actor , delete:movie, get:actor, get:movie, patch:actor, patch:movie, post:actor, post:movie
 ```
 #### FOR UDACITY REVIEW : KINDLY USE THE TOKENS ALREADY SETUP IN THE ATTACHED POSTMAP EXPORT
-
+4. Set local env config  ``` source setup.sh ```
 5. Run the development server:
   ```bash 
   $ FLASK_APP=app.py FLASK_DEBUG=true flask run

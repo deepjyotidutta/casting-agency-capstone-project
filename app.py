@@ -31,7 +31,7 @@ def create_app(test_config=None):
 
     @app.route("/authorization/url", methods=["GET"])
     def generate_auth_url():
-        ''' Helper method for generating JWT URL'''
+        """ Helper method for generating JWT URL """
         url = f'https://{AUTH0_DOMAIN}/authorize' \
             f'?audience={API_AUDIENCE}' \
             f'&response_type=token&client_id=' \
@@ -44,7 +44,7 @@ def create_app(test_config=None):
     @app.route('/actors')
     @requires_auth('get:actor')
     def get_actors(jwt):
-        # get all drinks
+        """ Service to fetch all actors """
         print("LOG START /actors")
         actors = Actor.query.all()
         # 404 if no drinks found
@@ -65,6 +65,7 @@ def create_app(test_config=None):
     @app.route('/actors', methods=['POST'])
     @requires_auth('post:actor')
     def create_actors(jwt):
+        """ Service to add an actor """
         success = False
         try:
             name = request.json.get('name', None)
@@ -92,7 +93,7 @@ def create_app(test_config=None):
     @app.route('/movies')
     @requires_auth('get:movie')
     def get_movies(jwt):
-        # get all drinks
+        """ Service to get all movies """
         print("LOG START /movies")
         movies = Movie.query.all()
         # 404 if no drinks found
@@ -113,6 +114,7 @@ def create_app(test_config=None):
     @app.route('/movies', methods=['POST'])
     @requires_auth('post:movie')
     def create_movies(jwt):
+        """ Service to add a movie """         
         success = False
         try:
             title = request.json.get('title', None)
@@ -140,6 +142,7 @@ def create_app(test_config=None):
     @app.route('/movieCast', methods=['POST'])
     @requires_auth('post:movie')
     def create_movieCast(jwt):
+        """ Service to add a moviecast """               
         error = False
         movie_id = request.json.get('movie_id', None)
         actor_id = request.json.get('actor_id', None)
@@ -245,6 +248,7 @@ def create_app(test_config=None):
     @app.route('/movies/<int:id>', methods=['DELETE'])
     @requires_auth('delete:movie')
     def delete_movie(jwt, id):
+        """ Service to delete a movie """               
         movie = Movie.query.filter(Movie.id == id).one_or_none()
         if not movie:
             abort(404)
@@ -258,6 +262,7 @@ def create_app(test_config=None):
     @app.route('/actors/<int:id>', methods=['DELETE'])
     @requires_auth('delete:actor')
     def delete_actor(jwt, id):
+        """ Service to delete an actor """               
         actor = Actor.query.filter(Actor.id == id).one_or_none()
         if not actor:
             abort(404)
@@ -271,6 +276,7 @@ def create_app(test_config=None):
     @app.route('/movies/<int:id>', methods=['PATCH'])
     @requires_auth('patch:movie')
     def update_movie(jwt, id):
+        """ Service to Update a movie """               
         movie = Movie.query.filter(Movie.id == id).one_or_none()
         if not movie:
             abort(404)
@@ -291,6 +297,7 @@ def create_app(test_config=None):
     @app.route('/actors/<int:id>', methods=['PATCH'])
     @requires_auth('patch:actor')
     def update_actor(jwt, id):
+        """ Service to update an actor """     
         actor = Actor.query.filter(Actor.id == id).one_or_none()
         if not actor:
             abort(404)
