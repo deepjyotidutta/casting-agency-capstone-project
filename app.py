@@ -4,7 +4,7 @@ from model.models import setup_db, Actor, MovieCast, Movie, db
 from flask_cors import CORS
 from flask_migrate import Migrate
 from auth.auth import AuthError, requires_auth
-
+import os
 
 def create_app(test_config=None):
     app = Flask(__name__)
@@ -13,6 +13,10 @@ def create_app(test_config=None):
     CORS(app)
 
     ITEMS_PER_PAGE = 10
+    AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
+    API_AUDIENCE = os.environ.get('API_AUDIENCE')
+    AUTH0_CLIENT_ID = os.environ.get('AUTH0_CLIENT_ID')
+    AUTH0_CALLBACK_URL = os.environ.get('AUTH0_CALLBACK_URL')
 
     def paginate(request, item_list):
         page = request.args.get('page', 1, type=int)
@@ -24,6 +28,18 @@ def create_app(test_config=None):
     @app.route('/')
     def home():
         return "Hello World"
+
+    @app.route("/authorization/url", methods=["GET"])
+    def generate_auth_url():
+        ''' Helper method for generating JWT URL'''
+        url = f'https://{AUTH0_DOMAIN}/authorize' \
+            f'?audience={API_AUDIENCE}' \
+            f'&response_type=token&client_id=' \
+            f'{AUTH0_CLIENT_ID}&redirect_uri=' \
+            f'{AUTH0_CALLBACK_URL}'
+        return jsonify({
+            'url': url
+        })
 
     @app.route('/actors')
     @requires_auth('get:actor')
